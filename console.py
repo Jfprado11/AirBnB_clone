@@ -18,12 +18,12 @@ class HBNBCommand(cmd.Cmd):
     prompt = '(hbnb) '
     file = None
 
-    def do_quit(self, args):
+    def do_quit(self, arg):
         """Command to exit the prompt directly
         """
         return True
 
-    def do_EOF(self, args):
+    def do_EOF(self, arg):
         """Allows to exit the prompt by typing ctrl^d
         """
         print()
@@ -35,7 +35,7 @@ class HBNBCommand(cmd.Cmd):
         """
         pass
 
-    def do_create(self, args):
+    def do_create(self, arg):
         """Creates a new instance of BaseModel, saves it, and print his id.
 
             If the class name is missing it raise the following error:
@@ -44,16 +44,16 @@ class HBNBCommand(cmd.Cmd):
             If the class name doesn’t exist it raise the following error:
                 ** class doesn't exist **
         """
-        if not args:
+        if not arg:
             print("** class name missing **")
-        elif args != "BaseModel":
+        elif arg != "BaseModel":
             print("** class doesn't exist **")
         else:
             obj = BaseModel()
             obj.save()
             print(obj.id)
 
-    def do_show(self, args):
+    def do_show(self, arg):
         """Prints the string representation of an instance based on the class name and id
 
             If the class name is missing it raise the following error:
@@ -69,37 +69,27 @@ class HBNBCommand(cmd.Cmd):
                 ** no instance found **
         """
         created_objs = storage.all()
-        if not args:
+        if not arg:
             print("** class name missing **")
             return
         else:
-            arg = args.split()
-            if arg[0] != "BaseModel":
+            args = arg.split()
+            if args[0] != "BaseModel":
                 print("** class doesn't exist **")
                 return
-            elif len(arg) == 1:
+            elif len(args) == 1:
                 print("** instance id missing **")
                 return
-            elif arg[0] and arg[1]:
-                new_key = arg[0] + "." + arg[1]
+            elif args[0] and args[1]:
+                new_key = args[0] + "." + args[1]
             if any(new_key == keys for keys in created_objs.keys()):
-                temp_dict = {}
                 dict_insta = created_objs[new_key]
-                for key, value in dict_insta.items():
-                    if key == "__class__":
-                        continue
-                    elif key == "created_at":
-                        form = '%Y-%m-%dT%H:%M:%S.%f'
-                        temp_dict[key] = datetime.strptime(value, form)
-                    elif key == "updated_at":
-                        temp_dict[key] = datetime.strptime(value, form)
-                    else:
-                        temp_dict[key] = value
-                print("[{}] ({}) {}".format(arg[0], arg[1], temp_dict))
+                insta = BaseModel(**dict_insta)
+                print(insta)
             else:
                 print("** no instance found **")
 
-    def do_destroy(self, args):
+    def do_destroy(self, arg):
         """Deletes an instance based on the class name and id
 
             If the class name is missing it raise the following error:
@@ -115,33 +105,33 @@ class HBNBCommand(cmd.Cmd):
                 ** no instance found **
         """
         created_objs = storage.all()
-        if not args:
+        if not arg:
             print("** class name missing **")
             return
         else:
-            arg = args.split()
+            args = arg.split()
             if arg[0] != "BaseModel":
                 print("** class doesn't exist **")
                 return
-            elif len(arg) == 1:
+            elif len(args) == 1:
                 print("** instance id missing **")
                 return
-            elif arg[0] and arg[1]:
-                new_key = arg[0] + "." + arg[1]
+            elif args[0] and args[1]:
+                new_key = args[0] + "." + args[1]
             if any(new_key == keys for keys in created_objs.keys()):
                 created_objs.pop(new_key)
                 storage.save()
-            else :
+            else:
                 print("** no instance found **")
 
-    def do_all(self, args):
+    def do_all(self, arg):
         """Prints all string representation of all instances based or not on the class name.
             If the class name doesn’t exist it raise the following error:
                 ** class doesn't exist **
         """
         new_list = []
         created_objs = storage.all()
-        if not args:
+        if not arg:
             for key_id in created_objs.keys():
                 temp_dict = {}
                 dict_insta = created_objs[key_id]
@@ -156,18 +146,94 @@ class HBNBCommand(cmd.Cmd):
                     else:
                         temp_dict[key] = value
                 cls_insta = dict_insta["__class__"]
-                id_x =  temp_dict["id"]
+                id_x = temp_dict["id"]
                 str_format = "[{}] ({}) {}".format(cls_insta, id_x, temp_dict)
                 new_list.append(str_format)
             print(new_list)
         else:
-            if args != "BaseModel":
+            if arg != "BaseModel":
                 print("** class doesn't exist **")
+            else:
+                for key_id in created_objs.keys():
+                    num = key_id.rfind(arg)
+                    if num != -1:
+                        temp_dict = {}
+                        dict_insta = created_objs[key_id]
+                        for key, value in dict_insta.items():
+                            if key == "__class__":
+                                continue
+                            elif key == "created_at":
+                                form = '%Y-%m-%dT%H:%M:%S.%f'
+                                temp_dict[key] = datetime.strptime(value, form)
+                            elif key == "updated_at":
+                                temp_dict[key] = datetime.strptime(value, form)
+                            else:
+                                temp_dict[key] = value
+                        cls_insta = dict_insta["__class__"]
+                        id_x = temp_dict["id"]
+                        str_format = "[{}] ({}) {}".format(
+                            cls_insta, id_x, temp_dict)
+                        new_list.append(str_format)
+                print(new_list)
 
-    def do_update(self):
+    def do_update(self, arg):
+        """Updates an instance based on the class name and id by adding or updating attribute
+
+            Usage: update <class name> <id> <attribute name> "<attribute value>"
+
+            If the class name is missing it raise the following error:
+                ** class name missing **
+
+            If the class name doesn’t exist it raise the following error:
+                ** class doesn't exist **
+
+            If the id is missing it raise the following error:
+                ** instance id missing **
+
+            If the instance of the class name doesn’t exist for the id it raise the following error:
+                ** no instance found **
+
+            If the attribute name is missing it raise the following error:
+                ** attribute name missing **
+
+            If the value for the attribute name doesn’t exist it raise the following error:
+                ** value missing **
         """
-        """
-        pass
+        if not arg:
+            print("** class name missing **")
+        else:
+            created_objs = storage.all()
+            args = arg.split()
+            if args[0] != "BaseModel":
+                print("** class doesn't exist **")
+                return
+            if len(args) == 1:
+                print("** instance id missing **")
+                return
+            if args[0] and args[1]:
+                new_key = args[0] + "." + args[1]
+            if any(new_key == keys for keys in created_objs.keys()):
+                if len(args) == 2:
+                    print("** attribute name missing **")
+                    return
+                if len(args) == 3:
+                    print("** value missing **")
+                    return
+                temp_dict = created_objs[new_key]
+                trim = args[3]
+                trim = trim[1:-1]
+                try:
+                    trim = int(trim)
+                except:
+                    try:
+                        trim = float(trim)
+                    except:
+                        trim = str(trim)
+                temp_dict[args[2]] = trim
+                insta = BaseModel(**temp_dict)
+                insta.save()
+            else:
+                print("** no instance found **")
 
 
 if __name__ == '__main__':
