@@ -12,10 +12,9 @@ class TestBaseModel(unittest.TestCase):
         """check if the rigth object is being created"""
         model = BaseModel()
         self.assertIsInstance(model, BaseModel)
-        # up_dated
+        self.assertEqual(len(model.id), 36)
+        self.assertEqual(model.__class__.__name__, "BaseModel")
         # created
-        # class
-        # id
 
     def test_setattributes(self):
         """check if the attributes are being created propertly"""
@@ -38,9 +37,11 @@ class TestBaseModel(unittest.TestCase):
         time_created = model.created_at.isoformat()
         time_updated = model.updated_at.isoformat()
         dict_expected = {'__class__': 'BaseModel', 'id': id_,
-                         'updated_at': time_updated, 
+                         'updated_at': time_updated,
                          'created_at': time_created}
         self.assertDictEqual(dict_proper, dict_expected)
+        model.save()
+        self.assertNotEqual(time_updated, model.updated_at)
 
     def test_string_representation(self):
         """test the string represtation of the
@@ -48,7 +49,6 @@ class TestBaseModel(unittest.TestCase):
         model = BaseModel()
         string = "[BaseModel] ({}) {}".format(model.id, model.__dict__)
         self.assertEqual(model.__str__(), string)
-
 
 if __name__ == '__main__':
     unittest.main()
