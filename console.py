@@ -7,7 +7,6 @@ imterpreter
 """
 import cmd
 from models import storage
-from datetime import datetime
 from models.base_model import BaseModel
 from models.user import User
 from models.state import State
@@ -22,7 +21,6 @@ class HBNBCommand(cmd.Cmd):
     that will used for running the command line enterpreter
     """
     prompt = '(hbnb) '
-    file = None
 
     def do_quit(self, arg):
         """Command to exit the prompt directly
@@ -149,23 +147,6 @@ class HBNBCommand(cmd.Cmd):
         models = ["BaseModel", "User", "State", "City",
                   "Amenity", "Place", "Review"]
         if not arg:
-            # for key_id in created_objs.keys():
-            #     temp_dict = {}
-            #     dict_insta = created_objs[key_id]
-            #     for key, value in dict_insta.items():
-            #         if key == "__class__":
-            #             continue
-            #         elif key == "created_at":
-            #             form = '%Y-%m-%dT%H:%M:%S.%f'
-            #             temp_dict[key] = datetime.strptime(value, form)
-            #         elif key == "updated_at":
-            #             temp_dict[key] = datetime.strptime(value, form)
-            #         else:
-            #             temp_dict[key] = value
-            #     cls_insta = dict_insta["__class__"]
-            #     id_x = temp_dict["id"]
-            #  str_format = "[{}] ({}) {}".format(cls_insta, id_x, temp_dict)
-            #   new_list.append(str_format)
             for key_id in created_objs.keys():
                 new_list.append(created_objs[key_id].__str__())
             print(new_list)
@@ -176,23 +157,6 @@ class HBNBCommand(cmd.Cmd):
                 for key_id in created_objs.keys():
                     num = key_id.rfind(arg)
                     if num != -1:
-                        # temp_dict = {}
-                        # dict_insta = created_objs[key_id]
-                        # for key, value in dict_insta.items():
-                        #     if key == "__class__":
-                        #         continue
-                        #     elif key == "created_at":
-                        #         form = '%Y-%m-%dT%H:%M:%S.%f'
-                        #     temp_dict[key] = datetime.strptime(value, form)
-                        #     elif key == "updated_at":
-                        #     temp_dict[key] = datetime.strptime(value, form)
-                        #     else:
-                        #         temp_dict[key] = value
-                        # cls_insta = dict_insta["__class__"]
-                        # id_x = temp_dict["id"]
-                        # str_format = "[{}] ({}) {}".format(
-                        #     cls_insta, id_x, temp_dict)
-                        # new_list.append(str_format)
                         new_list.append(created_objs[key_id].__str__())
                 print(new_list)
 
@@ -255,15 +219,6 @@ class HBNBCommand(cmd.Cmd):
                         trim = float(trim)
                     except:
                         trim = str(trim)
-                # temp_dict[args[2]] = trim
-                # print(temp_dict)
-                # model = args[0] + "(**temp_dict)"
-                # print(model)
-                # insta = eval(model)
-                # insta.save()
-                # insta = BaseModel(**temp_dict)
-                # print(insta)
-                # insta.save()
                 setattr(obj, args[2], trim)
                 obj.save()
             else:
