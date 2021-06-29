@@ -7,6 +7,7 @@ Allows to save new review with basic information.
 
 from models.base_model import BaseModel
 
+
 class Review(BaseModel):
     """
     Class State.

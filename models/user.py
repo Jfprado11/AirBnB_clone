@@ -7,6 +7,7 @@ Allows to save new users with basic information.
 
 from models.base_model import BaseModel
 
+
 class User(BaseModel):
     """
     Class User.
@@ -17,7 +18,6 @@ class User(BaseModel):
     password = ""
     first_name = ""
     last_name = ""
-
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

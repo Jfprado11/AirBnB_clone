@@ -7,6 +7,7 @@ Allows to save new amenity with basic information.
 
 from models.base_model import BaseModel
 
+
 class Amenity(BaseModel):
     """
     Class State.

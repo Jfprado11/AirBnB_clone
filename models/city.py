@@ -7,6 +7,7 @@ Allows to save new city with basic information.
 
 from models.base_model import BaseModel
 
+
 class City(BaseModel):
     """
     Class State.

@@ -54,7 +54,7 @@ class HBNBCommand(cmd.Cmd):
                   "City", "Amenity", "Place", "Review"]
         if not arg:
             print("** class name missing **")
-        elif not arg in models:
+        elif arg not in models:
             print("** class doesn't exist **")
         else:
             arg = arg + "()"
@@ -63,7 +63,8 @@ class HBNBCommand(cmd.Cmd):
             print(obj.id)
 
     def do_show(self, arg):
-        """Prints the string representation of an instance based on the class name and id
+        """Prints the string representation of an
+        instance based on the class name and id
 
             If the class name is missing it raise the following error:
                 ** class name missing **
@@ -74,7 +75,8 @@ class HBNBCommand(cmd.Cmd):
             If the id is missing it raise the following error:
                 ** instance id missing **
 
-            If the instance of the class name doesn’t exist for the id it raise the following error:
+            If the instance of the class name doesn’t exist for the
+            id it raise the following error:
                 ** no instance found **
         """
         created_objs = storage.all()
@@ -110,7 +112,8 @@ class HBNBCommand(cmd.Cmd):
             If the id is missing it raise the following error:
                 ** instance id missing **
 
-            If the instance of the class name doesn’t exist for the id it raise the following error:
+            If the instance of the class name doesn’t exist for
+            the id it raise the following error:
                 ** no instance found **
         """
         created_objs = storage.all()
@@ -136,7 +139,8 @@ class HBNBCommand(cmd.Cmd):
                 print("** no instance found **")
 
     def do_all(self, arg):
-        """Prints all string representation of all instances based or not on the class name.
+        """Prints all string representation of all
+        instances based or not on the class name.
             If the class name doesn’t exist it raise the following error:
                 ** class doesn't exist **
         """
@@ -160,13 +164,13 @@ class HBNBCommand(cmd.Cmd):
             #             temp_dict[key] = value
             #     cls_insta = dict_insta["__class__"]
             #     id_x = temp_dict["id"]
-            #     str_format = "[{}] ({}) {}".format(cls_insta, id_x, temp_dict)
-            #     new_list.append(str_format)
+            #  str_format = "[{}] ({}) {}".format(cls_insta, id_x, temp_dict)
+            #   new_list.append(str_format)
             for key_id in created_objs.keys():
                 new_list.append(created_objs[key_id].__str__())
             print(new_list)
         else:
-            if not arg in models:
+            if arg not in models:
                 print("** class doesn't exist **")
             else:
                 for key_id in created_objs.keys():
@@ -179,9 +183,9 @@ class HBNBCommand(cmd.Cmd):
                         #         continue
                         #     elif key == "created_at":
                         #         form = '%Y-%m-%dT%H:%M:%S.%f'
-                        #         temp_dict[key] = datetime.strptime(value, form)
+                        #     temp_dict[key] = datetime.strptime(value, form)
                         #     elif key == "updated_at":
-                        #         temp_dict[key] = datetime.strptime(value, form)
+                        #     temp_dict[key] = datetime.strptime(value, form)
                         #     else:
                         #         temp_dict[key] = value
                         # cls_insta = dict_insta["__class__"]
@@ -193,9 +197,11 @@ class HBNBCommand(cmd.Cmd):
                 print(new_list)
 
     def do_update(self, arg):
-        """Updates an instance based on the class name and id by adding or updating attribute
+        """Updates an instance based on the class name and
+        id by adding or updating attribute
 
-            Usage: update <class name> <id> <attribute name> "<attribute value>"
+            Usage:
+            update <class name> <id> <attribute name> "<attribute value>"
 
             If the class name is missing it raise the following error:
                 ** class name missing **
@@ -206,13 +212,15 @@ class HBNBCommand(cmd.Cmd):
             If the id is missing it raise the following error:
                 ** instance id missing **
 
-            If the instance of the class name doesn’t exist for the id it raise the following error:
+            If the instance of the class name doesn’t exist
+            for the id it raise the following error:
                 ** no instance found **
 
             If the attribute name is missing it raise the following error:
                 ** attribute name missing **
 
-            If the value for the attribute name doesn’t exist it raise the following error:
+            If the value for the attribute name doesn’t exist it
+            raise the following error:
                 ** value missing **
         """
         if not arg:
