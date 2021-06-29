@@ -2,7 +2,7 @@
 """
 Valid arguments.
 
-Define all comment atributes for other classes.
+Define all common atributes for other classes.
 """
 import uuid
 from datetime import datetime

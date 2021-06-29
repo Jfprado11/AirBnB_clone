@@ -8,8 +8,13 @@ imterpreter
 import cmd
 from models import storage
 from models.base_model import BaseModel
+from models.user import User
+from models.state import State
+from models.city import City
+from models.amenity import Amenity
+from models.place import Place
+from models.review import Review
 from datetime import datetime
-
 
 class HBNBCommand(cmd.Cmd):
     """class will hold the cmd module
@@ -44,12 +49,15 @@ class HBNBCommand(cmd.Cmd):
             If the class name doesn’t exist it raise the following error:
                 ** class doesn't exist **
         """
+        models = ["BaseModel", "User", "State", "City",
+            "Amenity", "Place", "Review"]
         if not arg:
             print("** class name missing **")
-        elif arg != "BaseModel":
+        elif not arg in models:
             print("** class doesn't exist **")
         else:
-            obj = BaseModel()
+            arg = arg + "()"
+            obj = eval(arg)
             obj.save()
             print(obj.id)
 
@@ -69,12 +77,14 @@ class HBNBCommand(cmd.Cmd):
                 ** no instance found **
         """
         created_objs = storage.all()
+        models = ["BaseModel", "User", "State", "City",
+            "Amenity", "Place", "Review"]
         if not arg:
             print("** class name missing **")
             return
         else:
             args = arg.split()
-            if args[0] != "BaseModel":
+            if not args[0] in models:
                 print("** class doesn't exist **")
                 return
             elif len(args) == 1:
@@ -84,7 +94,8 @@ class HBNBCommand(cmd.Cmd):
                 new_key = args[0] + "." + args[1]
             if any(new_key == keys for keys in created_objs.keys()):
                 dict_insta = created_objs[new_key]
-                insta = BaseModel(**dict_insta)
+                model = args[0] + "(**dict_insta)"
+                insta = eval(model)
                 print(insta)
             else:
                 print("** no instance found **")
@@ -105,12 +116,14 @@ class HBNBCommand(cmd.Cmd):
                 ** no instance found **
         """
         created_objs = storage.all()
+        models = ["BaseModel", "User", "State", "City",
+            "Amenity", "Place", "Review"]
         if not arg:
             print("** class name missing **")
             return
         else:
             args = arg.split()
-            if arg[0] != "BaseModel":
+            if not args[0] in models:
                 print("** class doesn't exist **")
                 return
             elif len(args) == 1:
@@ -131,6 +144,8 @@ class HBNBCommand(cmd.Cmd):
         """
         new_list = []
         created_objs = storage.all()
+        models = ["BaseModel", "User", "State", "City",
+            "Amenity", "Place", "Review"]
         if not arg:
             for key_id in created_objs.keys():
                 temp_dict = {}
@@ -151,7 +166,7 @@ class HBNBCommand(cmd.Cmd):
                 new_list.append(str_format)
             print(new_list)
         else:
-            if arg != "BaseModel":
+            if not arg in models:
                 print("** class doesn't exist **")
             else:
                 for key_id in created_objs.keys():
@@ -203,8 +218,10 @@ class HBNBCommand(cmd.Cmd):
             print("** class name missing **")
         else:
             created_objs = storage.all()
+            models = ["BaseModel", "User", "State", "City",
+                    "Amenity", "Place", "Review"]
             args = arg.split()
-            if args[0] != "BaseModel":
+            if not args[0] in models:
                 print("** class doesn't exist **")
                 return
             if len(args) == 1:
@@ -230,7 +247,8 @@ class HBNBCommand(cmd.Cmd):
                     except:
                         trim = str(trim)
                 temp_dict[args[2]] = trim
-                insta = BaseModel(**temp_dict)
+                model = args[0] + "(**temp_dict)"
+                insta = eval(model)
                 insta.save()
             else:
                 print("** no instance found **")
