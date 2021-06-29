@@ -7,6 +7,7 @@ imterpreter
 """
 import cmd
 from models import storage
+from datetime import datetime
 from models.base_model import BaseModel
 from models.user import User
 from models.state import State
@@ -14,7 +15,7 @@ from models.city import City
 from models.amenity import Amenity
 from models.place import Place
 from models.review import Review
-from datetime import datetime
+
 
 class HBNBCommand(cmd.Cmd):
     """class will hold the cmd module
@@ -49,8 +50,8 @@ class HBNBCommand(cmd.Cmd):
             If the class name doesn’t exist it raise the following error:
                 ** class doesn't exist **
         """
-        models = ["BaseModel", "User", "State", "City",
-            "Amenity", "Place", "Review"]
+        models = ["BaseModel", "User", "State",
+                  "City", "Amenity", "Place", "Review"]
         if not arg:
             print("** class name missing **")
         elif not arg in models:
@@ -78,7 +79,7 @@ class HBNBCommand(cmd.Cmd):
         """
         created_objs = storage.all()
         models = ["BaseModel", "User", "State", "City",
-            "Amenity", "Place", "Review"]
+                  "Amenity", "Place", "Review"]
         if not arg:
             print("** class name missing **")
             return
@@ -93,10 +94,7 @@ class HBNBCommand(cmd.Cmd):
             elif args[0] and args[1]:
                 new_key = args[0] + "." + args[1]
             if any(new_key == keys for keys in created_objs.keys()):
-                dict_insta = created_objs[new_key]
-                model = args[0] + "(**dict_insta)"
-                insta = eval(model)
-                print(insta)
+                print(created_objs[new_key])
             else:
                 print("** no instance found **")
 
@@ -117,7 +115,7 @@ class HBNBCommand(cmd.Cmd):
         """
         created_objs = storage.all()
         models = ["BaseModel", "User", "State", "City",
-            "Amenity", "Place", "Review"]
+                  "Amenity", "Place", "Review"]
         if not arg:
             print("** class name missing **")
             return
@@ -145,25 +143,27 @@ class HBNBCommand(cmd.Cmd):
         new_list = []
         created_objs = storage.all()
         models = ["BaseModel", "User", "State", "City",
-            "Amenity", "Place", "Review"]
+                  "Amenity", "Place", "Review"]
         if not arg:
+            # for key_id in created_objs.keys():
+            #     temp_dict = {}
+            #     dict_insta = created_objs[key_id]
+            #     for key, value in dict_insta.items():
+            #         if key == "__class__":
+            #             continue
+            #         elif key == "created_at":
+            #             form = '%Y-%m-%dT%H:%M:%S.%f'
+            #             temp_dict[key] = datetime.strptime(value, form)
+            #         elif key == "updated_at":
+            #             temp_dict[key] = datetime.strptime(value, form)
+            #         else:
+            #             temp_dict[key] = value
+            #     cls_insta = dict_insta["__class__"]
+            #     id_x = temp_dict["id"]
+            #     str_format = "[{}] ({}) {}".format(cls_insta, id_x, temp_dict)
+            #     new_list.append(str_format)
             for key_id in created_objs.keys():
-                temp_dict = {}
-                dict_insta = created_objs[key_id]
-                for key, value in dict_insta.items():
-                    if key == "__class__":
-                        continue
-                    elif key == "created_at":
-                        form = '%Y-%m-%dT%H:%M:%S.%f'
-                        temp_dict[key] = datetime.strptime(value, form)
-                    elif key == "updated_at":
-                        temp_dict[key] = datetime.strptime(value, form)
-                    else:
-                        temp_dict[key] = value
-                cls_insta = dict_insta["__class__"]
-                id_x = temp_dict["id"]
-                str_format = "[{}] ({}) {}".format(cls_insta, id_x, temp_dict)
-                new_list.append(str_format)
+                new_list.append(created_objs[key_id].__str__())
             print(new_list)
         else:
             if not arg in models:
@@ -172,23 +172,24 @@ class HBNBCommand(cmd.Cmd):
                 for key_id in created_objs.keys():
                     num = key_id.rfind(arg)
                     if num != -1:
-                        temp_dict = {}
-                        dict_insta = created_objs[key_id]
-                        for key, value in dict_insta.items():
-                            if key == "__class__":
-                                continue
-                            elif key == "created_at":
-                                form = '%Y-%m-%dT%H:%M:%S.%f'
-                                temp_dict[key] = datetime.strptime(value, form)
-                            elif key == "updated_at":
-                                temp_dict[key] = datetime.strptime(value, form)
-                            else:
-                                temp_dict[key] = value
-                        cls_insta = dict_insta["__class__"]
-                        id_x = temp_dict["id"]
-                        str_format = "[{}] ({}) {}".format(
-                            cls_insta, id_x, temp_dict)
-                        new_list.append(str_format)
+                        # temp_dict = {}
+                        # dict_insta = created_objs[key_id]
+                        # for key, value in dict_insta.items():
+                        #     if key == "__class__":
+                        #         continue
+                        #     elif key == "created_at":
+                        #         form = '%Y-%m-%dT%H:%M:%S.%f'
+                        #         temp_dict[key] = datetime.strptime(value, form)
+                        #     elif key == "updated_at":
+                        #         temp_dict[key] = datetime.strptime(value, form)
+                        #     else:
+                        #         temp_dict[key] = value
+                        # cls_insta = dict_insta["__class__"]
+                        # id_x = temp_dict["id"]
+                        # str_format = "[{}] ({}) {}".format(
+                        #     cls_insta, id_x, temp_dict)
+                        # new_list.append(str_format)
+                        new_list.append(created_objs[key_id].__str__())
                 print(new_list)
 
     def do_update(self, arg):
@@ -219,7 +220,7 @@ class HBNBCommand(cmd.Cmd):
         else:
             created_objs = storage.all()
             models = ["BaseModel", "User", "State", "City",
-                    "Amenity", "Place", "Review"]
+                      "Amenity", "Place", "Review"]
             args = arg.split()
             if not args[0] in models:
                 print("** class doesn't exist **")
@@ -236,7 +237,7 @@ class HBNBCommand(cmd.Cmd):
                 if len(args) == 3:
                     print("** value missing **")
                     return
-                temp_dict = created_objs[new_key]
+                obj = created_objs[new_key]
                 trim = args[3]
                 trim = trim[1:-1]
                 try:
@@ -246,10 +247,17 @@ class HBNBCommand(cmd.Cmd):
                         trim = float(trim)
                     except:
                         trim = str(trim)
-                temp_dict[args[2]] = trim
-                model = args[0] + "(**temp_dict)"
-                insta = eval(model)
-                insta.save()
+                # temp_dict[args[2]] = trim
+                # print(temp_dict)
+                # model = args[0] + "(**temp_dict)"
+                # print(model)
+                # insta = eval(model)
+                # insta.save()
+                # insta = BaseModel(**temp_dict)
+                # print(insta)
+                # insta.save()
+                setattr(obj, args[2], trim)
+                obj.save()
             else:
                 print("** no instance found **")
 

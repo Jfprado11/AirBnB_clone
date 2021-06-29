@@ -15,6 +15,7 @@ from models.amenity import Amenity
 from models.place import Place
 from models.review import Review
 
+
 class FileStorage:
     """
     Class FileStorage.
@@ -24,23 +25,29 @@ class FileStorage:
 
     def all(self):
         """method that willl return the dict of objects"""
-        return FileStorage.__objects
+        return self.__objects
 
     def new(self, obj):
         """set a new key in __obejcts with the key as the id"""
         name = obj.__class__.__name__
         id = obj.id
         key = name + "." + id
-        FileStorage.__objects[key] = obj.to_dict()
+        self.__objects[key] = obj
 
     def save(self):
         """serializes __objects to the JSON file"""
-        with open(FileStorage.__file_path, "w") as f:
-            f.write(json.dumps(FileStorage.__objects))
+        json_dict = {}
+        for key_id in self.__objects.keys():
+            json_dict[key_id] = self.__objects[key_id].to_dict()
+        with open(self.__file_path, "w") as f:
+            f.write(json.dumps(json_dict))
 
     def reload(self):
         """Function that returns the JSON file."""
-        if os.path.exists(FileStorage.__file_path):
-            with open(FileStorage.__file_path, "r") as f:
+        if os.path.exists(self.__file_path):
+            with open(self.__file_path, "r") as f:
                 dict_reload = json.load(f)
-            FileStorage.__objects = dict_reload
+            for key_id in dict_reload.keys():
+                class_id = key_id.split(".")
+                obj = class_id[0] + "(**dict_reload[key_id])"
+                self.__objects[key_id] = eval(obj)
