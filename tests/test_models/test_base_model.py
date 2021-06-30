@@ -54,6 +54,16 @@ class TestBaseModel(unittest.TestCase):
         string = "[BaseModel] ({}) {}".format(model.id, model.__dict__)
         self.assertEqual(model.__str__(), string)
 
+    def test_kwars(self):
+        model = BaseModel()
+        model.name = "alex"
+        model.save()
+        dict_model = model.to_dict()
+        model_dup = BaseModel(**dict_model)
+        self.assertDictEqual(model.to_dict(), model_dup.to_dict())
+        self.assertIsNot(model, model_dup)
+        self.assertIsInstance(model_dup, BaseModel)
+
 
 if __name__ == '__main__':
     unittest.main()
