@@ -29,16 +29,25 @@ class TestUser(unittest.TestCase):
     def test_setattributes(self):
         """check if the attributes are being created propertly"""
         a1 = User()
-        a1.name = "Holberton"
-        self.assertEqual(a1.name, "Holberton")
         a1.my_number = 89
         self.assertEqual(a1.my_number, 89)
         a1.my_number = -1
         self.assertEqual(a1.my_number, -1)
         a1.my_number = 0.1
         self.assertEqual(a1.my_number, 0.1)
-        a1.name = ""
-        self.assertEqual(a1.name, "")
+        # public class atributes
+        self.assertTrue(hasattr(a1, 'email'))
+        self.assertEqual(type(a1.email), str)
+        self.assertEqual(a1.email, "")
+        self.assertTrue(hasattr(a1, 'password'))
+        self.assertEqual(type(a1.password), str)
+        self.assertEqual(a1.password, "")
+        self.assertTrue(hasattr(a1, 'first_name'))
+        self.assertEqual(type(a1.first_name), str)
+        self.assertEqual(a1.first_name, "")
+        self.assertTrue(hasattr(a1, 'last_name'))
+        self.assertEqual(type(a1.last_name), str)
+        self.assertEqual(a1.last_name, "")
 
     def test_dict(self):
         """Test the correct implementation of the dictionary"""

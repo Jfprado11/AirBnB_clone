@@ -21,9 +21,6 @@ class TestCity(unittest.TestCase):
         self.assertIsInstance(model.id, str)
         self.assertTrue(issubclass(City, BaseModel))
 
-        # si tiene state id (str)
-        # si tiene name (str)
-
     def test_setattributes(self):
         """check if the attributes are being created propertly"""
         a1 = City()
