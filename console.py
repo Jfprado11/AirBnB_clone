@@ -39,6 +39,26 @@ class HBNBCommand(cmd.Cmd):
         """
         pass
 
+    def default(self, line: str) -> bool:
+        """default value when it not recognice returns
+        the erros else while print the requeriment
+        """
+        created_objs = storage.all()
+        all = ["BaseModel.count()", "User.count()",
+               "Place.count()", "City.count()",
+               "State.count()", "Amenity.count()", "Review.count()"]
+        if line in all:
+            trim = line.split(".")
+            number = 0
+            for key_id in created_objs.keys():
+                num = key_id.rfind(trim[0])
+                if num != -1:
+                    number = number + 1
+            print(number)
+
+        else:
+            return super().default(line)
+
     def do_create(self, arg):
         """Creates a new instance of BaseModel, saves it, and print his id.
 
