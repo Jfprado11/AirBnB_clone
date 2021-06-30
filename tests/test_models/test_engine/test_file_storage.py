@@ -2,7 +2,6 @@
 """Unittest for FileStorage
 """
 import unittest
-from models.base_model import BaseModel
 from models.engine.file_storage import FileStorage
 
 
@@ -10,25 +9,22 @@ class TestFileStorage(unittest.TestCase):
     """Class for testing the file storage"""
 
     def test_general(self):
-        """General cases tested"""
-        pass
-
-    def test_all(self):
-        """Check if the method 'all' shows everything"""
-        storage = FileStorage()
-        self.assertIsInstance(storage.all(), dict)
-
-    def test_new(self):
-        """Check if the method 'new' creates an object"""
-        pass
-
-    def test_save(self):
-        """Check if the method 'save' serializate to json"""
-        pass
-
-    def test_reload(self):
-        """Check if the method 'reload' deserializate from json"""
-        pass
+        """General cases tested
+        and checked if the attributes are corrected in
+        class FileStorage
+        an if the class attributes has the correct type
+        """
+        attr_class = [attr for attr in dir(FileStorage)]
+        self.assertTrue("_FileStorage__objects" in attr_class)
+        self.assertIsInstance(FileStorage.__dict__[
+                              "_FileStorage__objects"], dict)
+        self.assertTrue("_FileStorage__file_path" in attr_class)
+        self.assertIsInstance(FileStorage.__dict__[
+                              "_FileStorage__file_path"], str)
+        self.assertTrue("all" in attr_class)
+        self.assertTrue("new" in attr_class)
+        self.assertTrue("save" in attr_class)
+        self.assertTrue("reload" in attr_class)
 
 
 if __name__ == '__main__':
