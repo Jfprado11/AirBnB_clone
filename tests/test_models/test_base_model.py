@@ -1,160 +1,77 @@
 #!/usr/bin/python3
-"""Unittest for Base class
+"""Unittest for BaseModel
 """
 import unittest
-import models.base_model
+from models.base_model import BaseModel
 from datetime import datetime
-import json
-import os
 
 
-class TestBase_ModelClass(unittest.TestCase):
-    """Class for the test of BaseModel class
-    """
-    @classmethod
-    def setUpClass(self):
-        """
-        setUp method to create two instances
-        Args:
-            None
-        """
-        self.my_model1 = models.base_model.BaseModel()
-        self.my_model2 = models.base_model.BaseModel()
+class TestBaseModel(unittest.TestCase):
+    """Class for testing the object base model"""
 
-    @classmethod
-    def tearDownClass(self):
-        """
-        tearDown method
-        Args:
-            None
-        """
-        del self.my_model1
-        del self.my_model2
+    def test_is_instance(self):
+        """check if the rigth object is being created"""
+        model = BaseModel()
+        other_model = BaseModel()
+        self.assertIsInstance(model, BaseModel)
+        self.assertEqual(len(model.id), 36)
+        self.assertEqual(model.__class__.__name__, "BaseModel")
+        self.assertTrue(hasattr(model, "id"))
+        self.assertTrue(hasattr(model, "created_at"))
+        self.assertTrue(hasattr(model, "updated_at"))
+        self.assertIsInstance(model.created_at, datetime)
+        self.assertIsInstance(model.updated_at, datetime)
+        self.assertNotEqual(model.id, other_model.id)
+        self.assertIsInstance(model.id, str)
 
-    def test_Module_documentation(self):
-        """
-        testing module documentation
-        Args:
-            None
-        """
-        mod_doc = (models.base_model.__doc__)
-        self.assertTrue(len(mod_doc.strip().splitlines()) >= 3)
+    def test_setattributes(self):
+        """check if the attributes are being created propertly"""
+        a1 = BaseModel()
+        a1.name = "Holberton"
+        self.assertEqual(a1.name, "Holberton")
+        a1.my_number = 89
+        self.assertEqual(a1.my_number, 89)
+        a1.my_number = -1
+        self.assertEqual(a1.my_number, -1)
+        a1.my_number = 0.1
+        self.assertEqual(a1.my_number, 0.1)
+        a1.name = ""
+        self.assertEqual(a1.name, "")
 
-    def test_Class_documentation(self):
-        """
-        testing class documentation
-        Args:
-            None
-        """
-        class_doc = models.base_model.BaseModel.__doc__
-        self.assertTrue(len(class_doc.splitlines()) >= 3)
+    def test_dict(self):
+        model = BaseModel()
+        dict_proper = model.to_dict()
+        id_ = model.id
+        time_created = model.created_at.isoformat()
+        time_updated = model.updated_at.isoformat()
+        dict_expected = {'__class__': 'BaseModel', 'id': id_,
+                         'updated_at': time_updated,
+                         'created_at': time_created}
+        self.assertDictEqual(dict_proper, dict_expected)
+        model.save()
+        self.assertNotEqual(time_updated, model.updated_at.isoformat())
+        self.assertEqual(time_created, model.created_at.isoformat())
 
-    def test_shebang(self):
-        """
-        testing shebang
-        Args:
-            None
-        """
-        with open("models/base_model.py", "r") as file:
-            first_line = file.readline()
-            self.assertTrue(first_line.strip() == "#!/usr/bin/python3")
+    def test_string_representation(self):
+        """test the string represtation of the
+        class BaseModel is correct"""
+        model = BaseModel()
+        string = "[BaseModel] ({}) {}".format(model.id, model.__dict__)
+        self.assertEqual(model.__str__(), string)
 
-    def test_style(self):
-        """
-        testing pep8 style
-        Args:
-            None
-        """
-        with os.popen("pep8 models/base_model.py") as my_file:
-            self.assertEqual(my_file.read(), '')
-
-    def test_constructor(self):
-        """
-        testing __init__ method
-        Args:
-            None
-        """
-        self.assertIsInstance(self.my_model1, models.base_model.BaseModel)
-        self.assertIsInstance(self.my_model2, models.base_model.BaseModel)
-        self.assertTrue(hasattr(self.my_model1, "created_at"))
-        self.assertTrue(hasattr(self.my_model1, "updated_at"))
-        self.assertTrue(hasattr(self.my_model2, "created_at"))
-        self.assertTrue(hasattr(self.my_model2, "updated_at"))
-        self.assertIsInstance(self.my_model1.created_at, datetime)
-        self.assertIsInstance(self.my_model1.updated_at, datetime)
-        self.assertIsInstance(self.my_model2.created_at, datetime)
-        self.assertIsInstance(self.my_model2.updated_at, datetime)
-        self.assertNotEqual(self.my_model1.created_at,
-                            self.my_model2.created_at)
-        self.assertNotEqual(self.my_model1.updated_at,
-                            self.my_model2.updated_at)
-        self.my_model1.number = 102
-        self.my_model1.number2 = 10.3
-        self.my_model2.name = "Alex"
-        self.assertEqual(self.my_model1.number, 102)
-        self.assertEqual(self.my_model1.number2, 10.3)
-        self.assertEqual(self.my_model2.name, "Alex")
-
-    def test_id(self):
-        """
-        testing id attribute
-        Args:
-            None
-        """
-        self.assertTrue(hasattr(self.my_model1, "id"))
-        self.assertTrue(hasattr(self.my_model2, "id"))
-        self.assertNotEqual(self.my_model1.id, self.my_model2.id)
-        self.assertEqual(type(self.my_model1.id), str)
-
-    def test_str(self):
-        """
-        testing __str__ method
-        Args:
-            None
-        """
-        self.assertEqual(
-            str(
-                self.my_model1), str(
-                    "[{}] ({}) {}".format(
-                        type(self.my_model1).__name__,
-                        self.my_model1.id,
-                        self.my_model1.__dict__)))
-        self.assertEqual(
-            str(
-                self.my_model2), str(
-                    "[{}] ({}) {}".format(
-                        type(self.my_model2).__name__,
-                        self.my_model2.id,
-                        self.my_model2.__dict__)))
-
-    def test_save(self):
-        """
-        testing save method
-        Args:
-            None
-        """
-        date1 = self.my_model1.updated_at
-        self.my_model1.save()
-        self.assertNotEqual(self.my_model1.updated_at, date1)
-        date2 = self.my_model2.updated_at
-        self.my_model2.save()
-        self.assertNotEqual(self.my_model2.updated_at, date2)
-
-    def test_kwargs(self):
-        """
-        testing __init__ with kwargs
-        Args:
-            None
-        """
-        new_dict = self.my_model1.to_dict()
-        my_model3 = models.base_model.BaseModel(**new_dict)
-        self.assertEqual(self.my_model1.__dict__, my_model3.__dict__)
-        self.assertEqual(self.my_model1.to_dict(), my_model3.to_dict())
-        self.assertIsInstance(my_model3, models.base_model.BaseModel)
-        self.assertNotEqual(self.my_model1, my_model3)
-        self.assertIsInstance(my_model3.created_at, datetime)
-        self.assertIsInstance(my_model3.updated_at, datetime)
-        self.assertFalse(type(my_model3.created_at) is str)
+    def test_kwars(self):
+        model = BaseModel()
+        model.name = "alex"
+        model.save()
+        dict_model = model.to_dict()
+        model_dup = BaseModel(**dict_model)
+        self.assertDictEqual(model.to_dict(), model_dup.to_dict())
+        self.assertIsNot(model, model_dup)
+        self.assertNotEqual(model, model_dup)
+        self.assertIsInstance(model_dup.created_at, datetime)
+        self.assertIsInstance(model_dup.updated_at, datetime)
+        self.assertIsInstance(model_dup, BaseModel)
+        self.assertFalse(type(model_dup.created_at) is str)
 
 
 if __name__ == '__main__':
