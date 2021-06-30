@@ -44,10 +44,13 @@ class HBNBCommand(cmd.Cmd):
         the erros else while print the requeriment
         """
         created_objs = storage.all()
-        all = ["BaseModel.count()", "User.count()",
+        count = ["BaseModel.count()", "User.count()",
                "Place.count()", "City.count()",
                "State.count()", "Amenity.count()", "Review.count()"]
-        if line in all:
+        all = ["BaseModel.all()", "User.all()",
+               "Place.all()", "City.all()",
+               "State.all()", "Amenity.all()", "Review.all()"]
+        if line in count:
             trim = line.split(".")
             number = 0
             for key_id in created_objs.keys():
@@ -55,6 +58,15 @@ class HBNBCommand(cmd.Cmd):
                 if num != -1:
                     number = number + 1
             print(number)
+
+        if line in all:
+            new_list = []
+            for key, obj in created_objs.items():
+                trim = line.split(".")
+                classname = key.split(".")
+                if trim[0] == classname[0]:
+                    new_list.append(obj)
+            print(newlist)
 
         else:
             return super().default(line)
