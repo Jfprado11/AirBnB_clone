@@ -53,11 +53,19 @@ class TestBaseModel(unittest.TestCase):
         self.assertNotEqual(time_updated, model.updated_at.isoformat())
         self.assertEqual(time_created, model.created_at.isoformat())
 
+    def test_save(self):
+        """testing the correct behavior of the save method"""
+        model = BaseModel()
+        data1 = model.updated_at
+        model.save()
+        self.assertNotEqual(model.updated_at, date1)
+
     def test_string_representation(self):
         """test the string represtation of the
         class BaseModel is correct"""
         model = BaseModel()
-        string = "[BaseModel] ({}) {}".format(model.id, model.__dict__)
+        string = "[{}] ({}) {}".format(model.__class__.__name__,
+                                       model.id, model.__dict__)
         self.assertEqual(model.__str__(), string)
 
     def test_kwagrs(self):
@@ -70,6 +78,7 @@ class TestBaseModel(unittest.TestCase):
         dict_model = model.to_dict()
         model_dup = BaseModel(**dict_model)
         self.assertDictEqual(model.to_dict(), model_dup.to_dict())
+        self.assertDictEqual(model.__dict__, model_dup.__dict__)
         self.assertIsNot(model, model_dup)
         self.assertNotEqual(model, model_dup)
         self.assertIsInstance(model_dup.created_at, datetime)
