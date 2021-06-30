@@ -45,8 +45,8 @@ class HBNBCommand(cmd.Cmd):
         """
         created_objs = storage.all()
         count = ["BaseModel.count()", "User.count()",
-               "Place.count()", "City.count()",
-               "State.count()", "Amenity.count()", "Review.count()"]
+                 "Place.count()", "City.count()",
+                 "State.count()", "Amenity.count()", "Review.count()"]
         all = ["BaseModel.all()", "User.all()",
                "Place.all()", "City.all()",
                "State.all()", "Amenity.all()", "Review.all()"]
@@ -59,14 +59,14 @@ class HBNBCommand(cmd.Cmd):
                     number = number + 1
             print(number)
 
-        if line in all:
+        elif line in all:
             new_list = []
             for key, obj in created_objs.items():
                 trim = line.split(".")
                 classname = key.split(".")
                 if trim[0] == classname[0]:
-                    new_list.append(obj)
-            print(newlist)
+                    new_list.append(obj.__str__())
+            print(new_list)
 
         else:
             return super().default(line)
