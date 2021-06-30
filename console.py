@@ -39,7 +39,7 @@ class HBNBCommand(cmd.Cmd):
         """
         pass
 
-    def default(self, line: str) -> bool:
+    def default(self, line):
         """default value when it not recognice returns
         the erros else while print the requeriment
         """
