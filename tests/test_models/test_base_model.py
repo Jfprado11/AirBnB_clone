@@ -15,9 +15,7 @@ class TestBaseModel(unittest.TestCase):
         self.assertIsInstance(model, BaseModel)
         self.assertEqual(len(model.id), 36)
         self.assertEqual(model.__class__.__name__, "BaseModel")
-        self.assertTrue(hasattr(model, "id"))
         self.assertNotEqual(model.id, other_model.id)
-        self.assertIsInstance(model.id, str)
 
     def test_setattributes(self):
         """check if the attributes are being created propertly"""
@@ -44,7 +42,8 @@ class TestBaseModel(unittest.TestCase):
                          'created_at': time_created}
         self.assertDictEqual(dict_proper, dict_expected)
         model.save()
-        self.assertNotEqual(time_updated, model.updated_at)
+        self.assertNotEqual(time_updated, model.updated_at.isoformat())
+        self.assertEqual(time_created, model.created_at.isoformat())
 
     def test_string_representation(self):
         """test the string represtation of the
@@ -52,6 +51,7 @@ class TestBaseModel(unittest.TestCase):
         model = BaseModel()
         string = "[BaseModel] ({}) {}".format(model.id, model.__dict__)
         self.assertEqual(model.__str__(), string)
+
 
 if __name__ == '__main__':
     unittest.main()
