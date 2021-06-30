@@ -15,7 +15,9 @@ class TestBaseModel(unittest.TestCase):
         self.assertIsInstance(model, BaseModel)
         self.assertEqual(len(model.id), 36)
         self.assertEqual(model.__class__.__name__, "BaseModel")
+        self.assertTrue(hasattr(model, "id"))
         self.assertNotEqual(model.id, other_model.id)
+        self.assertIsInstance(model.id, str)
 
     def test_setattributes(self):
         """check if the attributes are being created propertly"""
