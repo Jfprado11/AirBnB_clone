@@ -39,6 +39,7 @@ class TestBaseModel(unittest.TestCase):
         self.assertEqual(a1.name, "")
 
     def test_dict(self):
+        """Test the correct implementation of the dictionary"""
         model = BaseModel()
         dict_proper = model.to_dict()
         id_ = model.id
@@ -59,7 +60,10 @@ class TestBaseModel(unittest.TestCase):
         string = "[BaseModel] ({}) {}".format(model.id, model.__dict__)
         self.assertEqual(model.__str__(), string)
 
-    def test_kwars(self):
+    def test_kwagrs(self):
+        """testing the kwargs for
+        creating a duplicated instances
+        """
         model = BaseModel()
         model.name = "alex"
         model.save()
