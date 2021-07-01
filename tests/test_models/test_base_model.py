@@ -58,7 +58,7 @@ class TestBaseModel(unittest.TestCase):
         model = BaseModel()
         data1 = model.updated_at
         model.save()
-        self.assertNotEqual(model.updated_at, date1)
+        self.assertNotEqual(model.updated_at, data1)
 
     def test_string_representation(self):
         """test the string represtation of the
