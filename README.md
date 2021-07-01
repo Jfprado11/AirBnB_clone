@@ -26,30 +26,30 @@ To make this AirBnB works you have to have in your machine the next files:
 
                 console.py
                 models > __init__.py
-			             basemodel.py
-			             user.py
-			             amenity.py
-			             city.py
-			             place.py
-			             state.py
-			             review.py
-			             engine > __init__.py
-						          file_storage.py
+			 basemodel.py
+			 user.py
+			 amenity.py
+			 city.py
+			 place.py
+			 state.py
+			 review.py
+			 engine > __init__.py
+			          file_storage.py
                 
 
 Also in the same directory you can have the next files if you want to test it:
                 
-			    tests > __init__.py
-		                test_models > __init__.py
-							          test_basemodel.py
-							          test_user.py
-							          test_amenity.py
-							          test_city.py
-							          test_place.py
-							          test_state.py
-							          test_review.py
-							          test_engine > __init__.py
-											        test_file_storage.py
+		 tests > __init__.py
+		         test_models > __init__.py
+			               test_basemodel.py
+				       test_user.py
+				       test_amenity.py
+				       test_city.py
+				       test_place.py
+				       test_state.py
+				       test_review.py
+				       test_engine > __init__.py
+				       		     test_file_storage.py
 
 ## **About the Authors**
 
