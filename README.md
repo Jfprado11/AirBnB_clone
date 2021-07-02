@@ -1,3 +1,4 @@
+![Console Readme](https://user-images.githubusercontent.com/77997865/124295490-83b34d80-db1e-11eb-880c-1e2ac7d6990f.jpg)
 # 0x00. AirBnB clone - The console
 ![](https://revistasumma.com/wp-content/uploads/2019/10/airbnb-678x381.png)
 
@@ -25,7 +26,7 @@ The AirBnB clone project try to replicated the behavior of the website of the co
 
 ## Flowchart
 
-![](https://miro.com/app/board/o9J_l8FKWR0=/?moveToWidget=3074457360944803019&cot=14)
+https://miro.com/app/board/o9J_l8TRc0k=/?moveToWidget=3074457360945304700&cot=14
 
 ## How to install it
 
