@@ -23,6 +23,10 @@ It was created looking simple and elegant but at the same time efficiency, follo
 
 The AirBnB clone project try to replicated the behavior of the website of the company AirBnB, witch needs to store lots of information from his users and his branch offices, and for this they are implementing json files, and a program to serializate and deserializates this information and store it properly.
 
+## Flowchart
+
+![](https://miro.com/app/board/o9J_l8FKWR0=/?moveToWidget=3074457360944803019&cot=14.png)
+
 ## How to install it
 
 To use this AirBnB clone implementation you must clone the following repository on your local machine  <https://github.com/Jfprado11/AirBnB_clone.git>, once you has the repository on your machine you must give permissions of execution with the command `chmod u+x console.py`, and preferably use it in a version of `python 3`  
