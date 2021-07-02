@@ -25,7 +25,7 @@ The AirBnB clone project try to replicated the behavior of the website of the co
 
 ## Flowchart
 
-![](https://miro.com/app/board/o9J_l8FKWR0=/?moveToWidget=3074457360944803019&cot=14.png)
+![](https://miro.com/app/board/o9J_l8FKWR0=/?moveToWidget=3074457360944803019&cot=14)
 
 ## How to install it
 
